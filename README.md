@@ -12,6 +12,7 @@ The goal is to demonstrate how multiple knowledge sources can be integrated into
 
 ## Project Structure
 
+```
 rag-system/
 ├── text_rag/
 │   ├── ingest.py
@@ -23,13 +24,14 @@ rag-system/
 │   ├── database.py
 │   ├── main.py
 │   └── database/
-│        ├── sql_details.txt   # schema + sample data
-│        └── mydb.db           # generated (ignored in git)
+│       ├── sql_details.txt   # schema + sample data
+│       └── mydb.db           # generated (ignored in git)
 │
 ├── app.py                 # Streamlit UI
 ├── main.py                # Orchestrator
 ├── .env
 └── requirements.txt
+```
 
 ---
 
@@ -47,30 +49,32 @@ rag-system/
 
 ### 1. Clone the repository
 
-git clone <your-repo-url>
+```bash
+git clone https://github.com/SuyalRohit/multi_rag_system
 cd rag-system
-
----
+```
 
 ### 2. Create and activate virtual environment
 
+```bash
 python -m venv venv
 source venv/bin/activate   # Linux/macOS
 venv\Scripts\activate      # Windows
-
----
+```
 
 ### 3. Install dependencies
 
+```bash
 pip install -r requirements.txt
-
----
+```
 
 ### 4. Set environment variables
 
 Create a `.env` file in the root directory:
 
+```
 GROQ_API_KEY=your_api_key_here
+```
 
 ---
 
@@ -80,13 +84,15 @@ GROQ_API_KEY=your_api_key_here
 
 Place your PDF files inside:
 
+```
 text_rag/data/
-
----
+```
 
 ### Run ingestion
 
+```bash
 python text_rag/ingest.py
+```
 
 This will:
 - Load PDFs
@@ -98,20 +104,17 @@ This will:
 
 ## SQL RAG Setup
 
-### Initialize database (recommended)
+### Initialize database
 
+```bash
 python sql_rag/init_db.py
+```
 
 This will:
 - Create a SQLite database
 - Load schema and sample data from `sql_details.txt`
 
----
-
-### Important
-
-- `sql_details.txt` defines your schema and sample data
-- The schema must match what is defined in `get_schema()` inside `database.py`
+> **Note:** `sql_details.txt` defines your schema and sample data. The schema must match what is defined in `get_schema()` inside `database.py`.
 
 ---
 
@@ -119,15 +122,17 @@ This will:
 
 If you want to use your own SQLite database:
 
-1. Replace:
+1. Replace the existing database file:
+   ```
    sql_rag/database/mydb.db
+   ```
 
-2. Update schema in:
-   sql_rag/database.py → `get_schema()`
+2. Update the schema in:
+   ```
+   sql_rag/database.py → get_schema()
+   ```
 
-Note:
-The schema string must match your actual database structure.  
-Otherwise SQL generation may fail or produce incorrect queries.
+> **Important:** The schema string must match your actual database structure. Otherwise SQL generation may fail or produce incorrect queries.
 
 ---
 
@@ -135,19 +140,23 @@ Otherwise SQL generation may fail or produce incorrect queries.
 
 ### CLI Mode
 
+```bash
 python main.py
+```
 
 Example queries:
 
+```
 What is an incident?
 How many customers are active?
 What is an incident and how many customers are active?
-
----
+```
 
 ### Streamlit UI
 
+```bash
 streamlit run app.py
+```
 
 ---
 
@@ -155,12 +164,13 @@ streamlit run app.py
 
 ### Routing
 
-The system classifies queries into:
-- text → document-based retrieval
-- sql → structured database queries
-- both → multi-source queries
+The system classifies each query into one of:
 
----
+| Route | Description |
+|-------|-------------|
+| `text` | Document-based retrieval |
+| `sql` | Structured database queries |
+| `both` | Multi-source queries |
 
 ### SQL RAG
 
@@ -168,15 +178,11 @@ The system classifies queries into:
 2. Query is executed against SQLite
 3. Result is converted into natural language
 
----
-
 ### Text RAG
 
 1. Query is embedded
 2. Relevant chunks retrieved from vector DB
 3. LLM generates answer based on context
-
----
 
 ### Combined Mode
 
@@ -196,7 +202,7 @@ For multi-intent queries:
 
 ---
 
-## Future Improvements in Upcoming Version
+## Future Improvements
 
 - Replace rule-based routing with LLM-based classification
 - Improve SQL query validation and retry logic
@@ -209,6 +215,6 @@ For multi-intent queries:
 
 ## Notes
 
-- `chroma_db/` and `database/` are ignored in version control
+- `chroma_db/` and `database/` are excluded from version control
 - `.env` file is not included for security reasons
 - Designed as a prototype for demonstrating multi-source RAG
