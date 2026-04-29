@@ -1,0 +1,6 @@
+.env
+__pycache__/
+*.pyc
+
+text_rag/chroma_db/
+sql_rag/database/mydb.db
