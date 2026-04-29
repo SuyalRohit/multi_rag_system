@@ -22,7 +22,7 @@ pdf_files = [f for f in os.listdir(DATA_PATH) if f.endswith(".pdf")]
 if not pdf_files:
     print("No PDF files found in data folder.")
     print("Please add PDF files to text_rag/data/ and run again.")
-    exit()
+    raise Exception("No PDF files found. Add files to text_rag/data/")
 
 all_docs = []
 

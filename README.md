@@ -51,7 +51,7 @@ rag-system/
 
 ```bash
 git clone https://github.com/SuyalRohit/multi_rag_system
-cd rag-system
+cd multi_rag_system
 ```
 
 ### 2. Create and activate virtual environment
